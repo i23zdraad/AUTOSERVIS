@@ -1,0 +1,14 @@
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\bin\Debug\net8.0\Autoservis.exe
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\bin\Debug\net8.0\Autoservis.deps.json
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\bin\Debug\net8.0\Autoservis.runtimeconfig.json
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\bin\Debug\net8.0\Autoservis.dll
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\bin\Debug\net8.0\Autoservis.pdb
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.GeneratedMSBuildEditorConfig.editorconfig
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.AssemblyInfoInputs.cache
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.AssemblyInfo.cs
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.csproj.CoreCompileInputs.cache
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.dll
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\refint\Autoservis.dll
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.pdb
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.genruntimeconfig.cache
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\ref\Autoservis.dll
