@@ -1,8 +1,4 @@
-﻿// Adam Zdráhal, 3.C, Programování a vývoj aplikací, Autoservis
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿using System;
 namespace Autoservis
 {
     class Vozidlo
@@ -39,10 +35,10 @@ namespace Autoservis
                 switch (volba)
                 {
                     case "1": PrijmiZakazku(); break;
-                    case "2": //ZobrazZakazky(); break;
-                    case "3": //OpravVozidlo(); break;
-                    case "4": //DokonciZakazku(); break;
-                    case "5": //ZobrazFinance(); break;
+                    case "2": ZobrazZakazky(); break;
+                    case "3": OpravVozidlo(); break;
+                    case "4": DokonciZakazku(); break;
+                    case "5": ZobrazFinance(); break;
                     case "6": bezi = false; break;
                     default: Console.WriteLine("Neplatná volba!"); break;
                 }
@@ -97,6 +93,148 @@ namespace Autoservis
         {
             string[] poruchy = { "Vadná brzdová soustava", "Porucha motoru", "Defekt převodovky", "Závada elektroinstalace", "Unikající chladicí kapalina", "Opotřebená spojka", "Porucha palivového systému" };
             return poruchy[random.Next(poruchy.Length)];
+        }
+        static void ZobrazZakazky()
+        {
+            Console.Clear();
+            Console.WriteLine("=== AKTUÁLNÍ ZAKÁZKY ===");
+            if (zakazky.Count == 0)
+            {
+                Console.WriteLine("Žádné zakázky k zobrazení.");
+            }
+            else
+            {
+                for (int i = 0; i < zakazky.Count; i++)
+                {
+                    Zakazka z = zakazky[i];
+                    string stav = z.JeDokoncena ? "DOKONČENA" : "V ŘEŠENÍ";
+                    Console.WriteLine($"{i + 1}. #{z.Id} | {z.Vozidlo.Znacka} {z.Vozidlo.Model} ({z.Vozidlo.Spz}) | {z.Porucha} | {z.TypOpravy ?? "Nezahájeno"} | {stav}");
+                }
+            }
+            Console.WriteLine("Stiskněte libovolnou klávesu...");
+            Console.ReadKey();
+        }
+        static void OpravVozidlo()
+        {
+            Console.Clear();
+            Console.WriteLine("=== OPRAVA VOZIDLA ===");
+            if (zakazky.Count == 0)
+            {
+                Console.WriteLine("Žádné zakázky k opravě.");
+                Console.ReadKey();
+                return;
+            }
+            for (int i = 0; i < zakazky.Count; i++)
+            {
+                if (!zakazky[i].JeDokoncena)
+                {
+                    Console.WriteLine($"{i + 1}. Zakázka #{zakazky[i].Id} - {zakazky[i].Vozidlo.Znacka} {zakazky[i].Vozidlo.Model}");
+                }
+            }
+            Console.Write("Zadejte číslo zakázky: ");
+            if (!int.TryParse(Console.ReadLine(), out int cislo) || cislo < 1 || cislo > zakazky.Count)
+            {
+                Console.WriteLine("Chyba: Neplatné číslo zakázky!");
+                Console.ReadKey();
+                return;
+            }
+            Zakazka vybrana = zakazky[cislo - 1];
+            if (vybrana.JeDokoncena)
+            {
+                Console.WriteLine("Tato zakázka je již dokončena.");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("Vyberte typ opravy:");
+            Console.WriteLine("1. Běžná údržba (500 Kč)");
+            Console.WriteLine("2. Střední oprava (2500 Kč)");
+            Console.WriteLine("3. Velká oprava (8000 Kč)");
+            Console.WriteLine("4. Generální oprava (15000 Kč)");
+            Console.Write("Vaše volba: ");
+            string volba = Console.ReadLine();
+            double cena = 0;
+            string typ = "";
+            switch (volba)
+            {
+                case "1": cena = 500; typ = "Běžná údržba"; break;
+                case "2": cena = 2500; typ = "Střední oprava"; break;
+                case "3": cena = 8000; typ = "Velká oprava"; break;
+                case "4": cena = 15000; typ = "Generální oprava"; break;
+                default:
+                    Console.WriteLine("Neplatná volba typu opravy!");
+                    Console.ReadKey();
+                    return;
+            }
+            double konecnaCena = VypocitejCenuOpravy(cena, vybrana.Vozidlo.RokVyroby);
+            vybrana.CenaOpravy = konecnaCena;
+            vybrana.TypOpravy = typ;
+            Console.WriteLine($"Oprava provedena. Cena: {konecnaCena:F2} Kč");
+            Console.WriteLine("Stiskněte libovolnou klávesu...");
+            Console.ReadKey();
+        }
+        static double VypocitejCenuOpravy(double zakladniCena, int rokVyroby)
+        {
+            int stari = DateTime.Now.Year - rokVyroby;
+            double prirazka = 1.0;
+            if (stari > 20) prirazka = 1.5;
+            else if (stari > 10) prirazka = 1.2;
+            else if (stari > 5) prirazka = 1.1;
+            return zakladniCena * prirazka;
+        }
+        static void DokonciZakazku()
+        {
+            Console.Clear();
+            Console.WriteLine("=== DOKONČENÍ ZAKÁZKY ===");
+            if (zakazky.Count == 0)
+            {
+                Console.WriteLine("Žádné zakázky k dokončení.");
+                Console.ReadKey();
+                return;
+            }
+            for (int i = 0; i < zakazky.Count; i++)
+            {
+                if (!zakazky[i].JeDokoncena && !string.IsNullOrEmpty(zakazky[i].TypOpravy))
+                {
+                    Console.WriteLine($"{i + 1}. Zakázka #{zakazky[i].Id} - {zakazky[i].Vozidlo.Znacka} {zakazky[i].Vozidlo.Model} - {zakazky[i].CenaOpravy:F2} Kč");
+                }
+            }
+            Console.Write("Zadejte číslo zakázky k dokončení: ");
+            if (!int.TryParse(Console.ReadLine(), out int cislo) || cislo < 1 || cislo > zakazky.Count)
+            {
+                Console.WriteLine("Chyba: Neplatné číslo zakázky!");
+                Console.ReadKey();
+                return;
+            }
+            Zakazka vybrana = zakazky[cislo - 1];
+            if (vybrana.JeDokoncena)
+            {
+                Console.WriteLine("Zakázka je již dokončena.");
+                Console.ReadKey();
+                return;
+            }
+            if (string.IsNullOrEmpty(vybrana.TypOpravy))
+            {
+                Console.WriteLine("Zakázka nemá provedenou opravu!");
+                Console.ReadKey();
+                return;
+            }
+            vybrana.JeDokoncena = true;
+            celkovyZisk += vybrana.CenaOpravy;
+            aktualniFinance += vybrana.CenaOpravy;
+            Console.WriteLine($"Zakázka #{vybrana.Id} dokončena. Připsáno: {vybrana.CenaOpravy:F2} Kč");
+            Console.WriteLine("Stiskněte libovolnou klávesu...");
+            Console.ReadKey();
+        }
+        static void ZobrazFinance()
+        {
+            Console.Clear();
+            Console.WriteLine("=== FINANČNÍ EVIDENCE ===");
+            Console.WriteLine($"Aktuální stav financí: {aktualniFinance:F2} Kč");
+            Console.WriteLine($"Celkový zisk: {celkovyZisk:F2} Kč");
+            Console.WriteLine($"Počet dokončených zakázek: {zakazky.Count(z => z.JeDokoncena)}");
+            Console.WriteLine($"Počet aktivních zakázek: {zakazky.Count(z => !z.JeDokoncena)}");
+            Console.WriteLine("Stiskněte libovolnou klávesu...");
+            Console.ReadKey();
         }
     }
 }

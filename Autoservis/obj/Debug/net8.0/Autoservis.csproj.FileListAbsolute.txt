@@ -12,3 +12,4 @@ E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\refint\Autoservis.d
 E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.pdb
 E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.genruntimeconfig.cache
 E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\ref\Autoservis.dll
+E:\ŠKOLA\PVA PROJEKT\Autoservis\Autoservis\obj\Debug\net8.0\Autoservis.sourcelink.json
